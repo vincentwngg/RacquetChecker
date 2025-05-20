@@ -2,10 +2,8 @@ package org.example.Passwords;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.OneToOne;
-import org.example.Users.User;
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import org.example.Users.User;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -16,14 +14,16 @@ import javax.crypto.spec.PBEKeySpec;
 @Entity
 public class Password {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // or any other strategy
     private Long id;
 
     private String hashedPassword;
 
     private String salt;
+
+    @Transient
+    private String plainPassword;
 
 
     @OneToOne(mappedBy = "password")
@@ -71,6 +71,26 @@ public class Password {
 
     public String getSalt() {
         return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
+    }
+
+    public String getPlainPassword(){
+        return plainPassword;
+    }
+
+    public void setPlainPassword(String plainPassword) {
+        this.plainPassword = plainPassword;
+    }
+
+    public Long getId(){
+        return id;
     }
 
     @Override

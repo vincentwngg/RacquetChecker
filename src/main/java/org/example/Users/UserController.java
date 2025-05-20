@@ -36,11 +36,26 @@ public class UserController {
 
     @PostMapping(path = "users/signup")
     public ResponseEntity<String> registerUser(@RequestBody User user){
-        if(user == null){
+        if(user == null || user.getPassword() == null){
             return ResponseEntity.badRequest().body(failure);
         }
-        userRepository.save(user);
-        return ResponseEntity.ok(success);
+
+        try {
+            String plainPassword = user.getPassword().getPlainPassword();
+            String salt = Password.generateSalt();
+            String hashedPassword = Password.hashPassword(plainPassword, salt);
+
+            Password password = new Password();
+            password.setSalt(salt);
+            password.setHashedPassword(hashedPassword);
+
+            user.setPassword(password);
+            userRepository.save(user);
+
+            return ResponseEntity.ok(success);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(failure);
+        }
     }
 
     @PostMapping("users/login")
@@ -78,7 +93,7 @@ public class UserController {
     }
 
     @DeleteMapping(path = "users/delete/{id}")
-    public ResponseEntity<String> deleteUser(@RequestBody Long id){
+    public ResponseEntity<String> deleteUser(@PathVariable Long id){
         if(userRepository.findById(id).isPresent()){
             userRepository.deleteById(id);
             return ResponseEntity.ok(success);
@@ -86,7 +101,35 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(failure);
     }
 
+    @PutMapping(path = "users/update/{id}/passwords/{passwordId}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User request, @PathVariable Long passwordId){
+        Optional<User> user = userRepository.findById(id);
+        Optional<Password> oldPassword = passwordRepository.findById(passwordId);
 
+        if (user.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        if (oldPassword.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        if (!request.getId().equals(id)) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        User newUser = user.get();
+        Password password = oldPassword.get();
+
+        newUser.setEmail(request.getEmail());
+        newUser.setUsername(request.getUsername());
+        newUser.setLocation(request.getLocation());
+        newUser.setPassword(password);
+
+        User updatedUser = userRepository.save(newUser);
+        return ResponseEntity.ok(updatedUser);
+
+    }
 
 
 
