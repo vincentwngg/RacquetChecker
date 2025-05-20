@@ -72,6 +72,14 @@ public class User {
         this.username = username;
     }
 
+    public Password getPassword() {
+        return password;
+    }
+
+    public void setPassword(Password password) {
+        this.password = password;
+    }
+
     public Long getId() {
         return id;
     }
