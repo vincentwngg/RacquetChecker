@@ -15,9 +15,9 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByUserName(String userName);
+    Optional<User> findByUsername(String username);
 
-    @Query("SELECT u FROM User u ORDER BY u.wins DESC")
-    List<User> getLeaderboard();
+    // @Query("SELECT u FROM User u ORDER BY u.wins DESC")
+    // List<User> getLeaderboard();
 
 }

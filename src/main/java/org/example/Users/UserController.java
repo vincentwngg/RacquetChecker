@@ -48,7 +48,7 @@ public class UserController {
         String username = credentials.get("username");
         String password = credentials.get("password");
 
-        Optional<User> userOpt = userRepository.findByUserName(username);
+        Optional<User> userOpt = userRepository.findByUsername(username);
 
         if (userOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

@@ -4,6 +4,8 @@ package org.example.Passwords;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.OneToOne;
 import org.example.Users.User;
+import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -11,8 +13,13 @@ import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+@Entity
 public class Password {
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String hashedPassword;
 
