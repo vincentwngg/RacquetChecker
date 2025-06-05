@@ -1,5 +1,6 @@
 package org.example.Racquets;
 
+import org.example.Users.User;
 import org.example.Users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RacquetController {
@@ -50,6 +52,26 @@ public class RacquetController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(failure);
     }
 
+    @PutMapping(path = "/racquets/update/{id}")
+    public ResponseEntity<Racquet> updateRacquet(@PathVariable Long id, @RequestBody Racquet request){
+        Optional<Racquet> racquet = racquetRepository.findById(id);
+
+        if(racquet.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        if (!request.getId().equals(id)) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        Racquet newRacquet = racquet.get();
+        newRacquet.setBrand(request.getBrand());
+        newRacquet.setModel(request.getModel());
+        newRacquet.setPrice(request.getPrice());
+        newRacquet.setSpecs(request.getSpecs());
+
+        Racquet updatedRacquet = racquetRepository.save(newRacquet);
+        return ResponseEntity.ok(updatedRacquet);
+    }
 
 
 
