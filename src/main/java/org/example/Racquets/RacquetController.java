@@ -28,6 +28,19 @@ public class RacquetController {
         return ResponseEntity.ok(racquetRepository.findAll());
     }
 
+    @GetMapping("/racquets/{id}")
+    public ResponseEntity<Racquet> getRacquetById(@PathVariable Long id) {
+        return racquetRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    }
+
+    @GetMapping("/racquets/search")
+    public ResponseEntity<List<Racquet>> searchRacquets(@RequestParam String keyword) {
+        List<Racquet> results = racquetRepository.findByBrandContainingIgnoreCaseOrModelContainingIgnoreCase(keyword, keyword);
+        return ResponseEntity.ok(results);
+    }
+
     @PostMapping(path = "/racquets/add")
     public ResponseEntity<String> addRacquet(@RequestBody Racquet racquet){
         if(racquet == null){
