@@ -72,9 +72,6 @@ public class RacquetController {
         if(racquet.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        if (!request.getId().equals(id)) {
-            return ResponseEntity.badRequest().body(null);
-        }
 
         Racquet newRacquet = racquet.get();
         newRacquet.setBrand(request.getBrand());
