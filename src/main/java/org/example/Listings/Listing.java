@@ -13,23 +13,33 @@ public class Listing {
     private Long id;
 
     private int ebayId;
-    private int price;
+    private int bidPrice;
     private String condition;
     private String brand;
     private String model;
     private LocalDateTime postedAt;
+    private int buyNowPrice;
+    private int shippingPrice;
+    private boolean returnable;
+    private String sellerUsername;
+    private double sellerRating;
+    private int sellerFeedbackCount;
 
     public Listing() {
 
     }
 
-    public Listing(int ebayId, int price, String condition, String brand, String model, LocalDateTime postedAt) {
+    public Listing(int ebayId, int bidPrice, String condition, String brand, String model, LocalDateTime postedAt, int buyNowPrice, int shippingPrice, boolean returnable
+    ) {
         this.ebayId = ebayId;
-        this.price = price;
+        this.bidPrice = bidPrice;
         this.condition = condition;
         this.brand = brand;
         this.model = model;
         this.postedAt = postedAt;
+        this.buyNowPrice = buyNowPrice;
+        this.shippingPrice = shippingPrice;
+        this.returnable = returnable;
     }
 
     @Override
@@ -37,16 +47,78 @@ public class Listing {
         return "Listing{" +
                 "id=" + id +
                 ", ebayId=" + ebayId +
-                ", price=" + price +
+                ", price=" + bidPrice +
+                ", buyNowPrice=" + buyNowPrice +
+                ", shippingPrice=" + shippingPrice +
                 ", condition='" + condition + '\'' +
+                ", returnable=" + returnable +
                 ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", postedAt=" + postedAt +
+                ", sellerUsername='" + sellerUsername + '\'' +
+                ", sellerRating=" + sellerRating +
+                ", sellerFeedbackCount=" + sellerFeedbackCount +
                 '}';
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public double getSellerRating() {
+        return sellerRating;
+    }
+
+    public int getBidPrice() {
+        return bidPrice;
+    }
+
+    public int getSellerFeedbackCount() {
+        return sellerFeedbackCount;
+    }
+
+    public String getSellerUsername() {
+        return sellerUsername;
+    }
+
+    public void setBidPrice(int bidPrice) {
+        this.bidPrice = bidPrice;
+    }
+
+    public void setSellerFeedbackCount(int sellerFeedbackCount) {
+        this.sellerFeedbackCount = sellerFeedbackCount;
+    }
+
+    public void setSellerRating(double sellerRating) {
+        this.sellerRating = sellerRating;
+    }
+
+    public void setSellerUsername(String sellerUsername) {
+        this.sellerUsername = sellerUsername;
+    }
+
+    public boolean isReturnable() {
+        return returnable;
+    }
+
+    public int getBuyNowPrice() {
+        return buyNowPrice;
+    }
+
+    public int getShippingPrice() {
+        return shippingPrice;
+    }
+
+    public void setBuyNowPrice(int buyNowPrice) {
+        this.buyNowPrice = buyNowPrice;
+    }
+
+    public void setReturnable(boolean returnable) {
+        this.returnable = returnable;
+    }
+
+    public void setShippingPrice(int shippingPrice) {
+        this.shippingPrice = shippingPrice;
+    }
+
+    public void setPrice(int bidPrice) {
+        this.bidPrice = bidPrice;
     }
 
     public void setModel(String model) {
@@ -78,7 +150,7 @@ public class Listing {
     }
 
     public int getPrice() {
-        return price;
+        return bidPrice;
     }
 
     public LocalDateTime getPostedAt() {
