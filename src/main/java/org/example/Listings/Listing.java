@@ -1,9 +1,8 @@
 package org.example.Listings;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.example.Racquets.Racquet;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,6 +10,10 @@ public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // or any other strategy
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "racquet_id")  // foreign key column in listings table
+    private Racquet racquet;
 
     private int ebayId;
     private int bidPrice;

@@ -1,17 +1,20 @@
 package org.example.Racquets;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.example.Listings.Listing;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Racquet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(mappedBy = "racquet", cascade = CascadeType.ALL)
+    private List<Listing> listings = new ArrayList<>();
 
     private String brand;
     private String model;
